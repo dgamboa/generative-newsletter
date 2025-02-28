@@ -1,6 +1,6 @@
 # Project Instructions
 
-Use the project specification and guidelines as you build the Learning Prototype.
+Use the project specification and guidelines as you build.
 
 Write the complete code for every step. Do not get lazy.
 
@@ -8,7 +8,7 @@ Your goal is to completely finish whatever the user asks for.
 
 ## Overview
 
-Learning Prototype is a web app that allows you to learn by asking questions and getting answers from an AI coach. It also allows you to connect with other learners and share your learning journey.
+A Next.js application leveraging large language models (LLMs) to automatically generate personalized newsletters based on configurable prompts. Users can review, edit, and send the final newsletter draft directly from the platform, with emails formatted to look professional and visually appealing.
 
 ## Tech Stack
 
