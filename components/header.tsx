@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { CheckSquare, Menu, X } from "lucide-react";
+import { CheckSquare, Menu, X, Mail } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -19,8 +19,8 @@ export default function Header() {
     <header className="bg-primary text-primary-foreground shadow-md">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <CheckSquare className="h-6 w-6" />
-          <h1 className="text-xl font-bold">Learning Prototype</h1>
+          <Mail className="h-6 w-6" />
+          <h1 className="text-xl font-bold">Newsletter Generator</h1>
         </div>
         <nav className="hidden md:flex space-x-4">
           <Link
@@ -31,10 +31,10 @@ export default function Header() {
           </Link>
           <SignedIn>
             <Link
-              href="/placeholder"
+              href="/dashboard"
               className="hover:underline"
             >
-              Placeholder
+              Dashboard
             </Link>
           </SignedIn>
         </nav>
@@ -72,11 +72,11 @@ export default function Header() {
             <SignedIn>
               <li>
                 <Link
-                  href="/placeholder"
+                  href="/dashboard"
                   className="block hover:underline"
                   onClick={toggleMenu}
                 >
-                  Placeholder
+                  Dashboard
                 </Link>
               </li>
             </SignedIn>

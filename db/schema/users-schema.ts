@@ -14,7 +14,9 @@ export const usersTable = pgTable("users", {
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .notNull()
-    .$onUpdate(() => new Date())
+    .$onUpdate(() => {
+      return new Date();
+    })
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;
