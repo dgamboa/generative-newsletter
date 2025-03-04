@@ -179,7 +179,7 @@ export default function TipTapEditor({
       
       <EditorContent 
         editor={editor} 
-        className="prose prose-sm max-w-none p-4 min-h-[250px] focus:outline-none" 
+        className="prose prose-sm dark:prose-invert max-w-none p-4 min-h-[250px] focus:outline-none" 
       />
     </div>
   )
