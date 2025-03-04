@@ -181,6 +181,7 @@ export default function NewsletterEditor({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter newsletter title"
+            className="dark:bg-[#222] dark:border-gray-700"
           />
         </div>
       </div>
@@ -189,7 +190,7 @@ export default function NewsletterEditor({
         <TabsList className="mb-4">
           <TabsTrigger value="edit">Edit</TabsTrigger>
           <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="send">Send</TabsTrigger>
+          <TabsTrigger value="recipients">Recipients</TabsTrigger>
         </TabsList>
         
         <TabsContent value="edit" className="space-y-4">
@@ -200,7 +201,7 @@ export default function NewsletterEditor({
           <NewsletterPreview title={title} content={content} />
         </TabsContent>
         
-        <TabsContent value="send" className="space-y-6">
+        <TabsContent value="recipients" className="space-y-6">
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Recipients</h3>
             

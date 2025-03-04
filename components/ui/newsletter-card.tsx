@@ -34,7 +34,7 @@ export default function NewsletterCard({
     : null
 
   return (
-    <Card>
+    <Card className="dark:bg-[#111] dark:border-gray-700">
       <CardHeader>
         <div className="flex justify-between items-start">
           <div>

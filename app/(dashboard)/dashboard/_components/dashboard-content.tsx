@@ -110,12 +110,13 @@ export default function DashboardContent({
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter newsletter title"
             disabled={isGenerating}
+            className="dark:bg-[#222] dark:border-gray-700"
           />
         </div>
         <Button 
           onClick={handleGenerateNewsletter} 
           disabled={isGenerating}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-[#208036] hover:bg-[#208036]/90 dark:bg-[#40b25d] dark:hover:bg-[#40b25d]/90"
         >
           <PlusIcon size={16} />
           {isGenerating ? "Generating..." : "Generate Newsletter"}
