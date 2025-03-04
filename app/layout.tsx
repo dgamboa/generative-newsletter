@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Learning Prototype",
-  description: "A learning prototype for a new startup",
+  title: "Pamphlet",
+  description: "A prototype for a newsletter generation and distribution app",
 };
 
 export default async function RootLayout({

@@ -19,7 +19,7 @@ export default async function NewsletterPage(props: NewsletterPageProps) {
   const { id } = params;
   
   return (
-    <div className="container py-8">
+    <div className="py-8">
       <Suspense fallback={<NewsletterSkeleton />}>
         <NewsletterEditorFetcher id={id} />
       </Suspense>
