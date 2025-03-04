@@ -7,13 +7,12 @@ Technology and AI trends
 Recent developments, breakthroughs, and practical applications in technology and artificial intelligence.
 
 ## Time Period
-Focus on developments from the past week.
+Focus on developments in February 2025.
 
 ## Structure
 1. Introduction - Set the context for this week's technology and AI developments
-2. Major News - Cover 2-3 significant developments in technology or AI
-3. Practical Applications - Discuss how these developments might be applied in real-world scenarios
-4. Industry Impact - Analyze how these developments might affect various industries
+2. Major News - Cover up to 5 significant developments in AI including a headline and a brief description of the development. These news should focus on new model announcements, product launches, major lawsuits, and any major technological breakthroughs. You should include at least 2, but no more than 5.
+3. Company News - Cover up to 3 news specific to companies like fundraisers, major stock price changes, earnings releases, key leadership changes, or other company-specific announcements. Don't include product announcements in this section.
 5. Conclusion - Summarize key takeaways and look ahead
 
 ## Tone
