@@ -27,6 +27,7 @@ export default function NewsletterEditor({
   const [isSaving, setIsSaving] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [activeTab, setActiveTab] = useState("edit")
   const router = useRouter()
   const { toast } = useToast()
 
@@ -35,13 +36,22 @@ export default function NewsletterEditor({
     return () => setMounted(false)
   }, [])
 
-  const handleSave = async () => {
+  // Auto-save when switching to recipients tab
+  useEffect(() => {
+    if (activeTab === "recipients" && title.trim()) {
+      handleSave(false)
+    }
+  }, [activeTab])
+
+  const handleSave = async (showToast = true) => {
     if (!title.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a title for your newsletter",
-        variant: "destructive"
-      })
+      if (showToast) {
+        toast({
+          title: "Error",
+          description: "Please enter a title for your newsletter",
+          variant: "destructive"
+        })
+      }
       return
     }
 
@@ -54,24 +64,30 @@ export default function NewsletterEditor({
       })
       
       if (result.status === "success") {
-        toast({
-          title: "Success",
-          description: "Newsletter saved successfully"
-        })
+        if (showToast) {
+          toast({
+            title: "Success",
+            description: "Newsletter saved successfully"
+          })
+        }
       } else {
-        toast({
-          title: "Error",
-          description: result.message || "Failed to save newsletter",
-          variant: "destructive"
-        })
+        if (showToast) {
+          toast({
+            title: "Error",
+            description: result.message || "Failed to save newsletter",
+            variant: "destructive"
+          })
+        }
       }
     } catch (error) {
       console.error("Error saving newsletter:", error)
-      toast({
-        title: "Error",
-        description: "Failed to save newsletter",
-        variant: "destructive"
-      })
+      if (showToast) {
+        toast({
+          title: "Error",
+          description: "Failed to save newsletter",
+          variant: "destructive"
+        })
+      }
     } finally {
       setIsSaving(false)
     }
@@ -162,7 +178,7 @@ export default function NewsletterEditor({
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Edit Newsletter</h1>
         <Button 
-          onClick={handleSave} 
+          onClick={() => handleSave(true)} 
           disabled={isSaving}
           className="flex items-center gap-2"
         >
@@ -186,7 +202,7 @@ export default function NewsletterEditor({
         </div>
       </div>
       
-      <Tabs defaultValue="edit">
+      <Tabs defaultValue="edit" onValueChange={setActiveTab} value={activeTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="edit">Edit</TabsTrigger>
           <TabsTrigger value="preview">Preview</TabsTrigger>
