@@ -8,7 +8,7 @@ const perplexityClient = axios.create({
   }
 })
 
-export async function generateNewsletterWithPerplexity(prompt: string): Promise<string> {
+export async function generateNewsletterWithPerplexity(prompt: string): Promise<{ content: string; citations: string[] }> {
   try {
     // Get API key at function call time
     const apiKey = process.env.PERPLEXITY_API_KEY
@@ -45,7 +45,12 @@ export async function generateNewsletterWithPerplexity(prompt: string): Promise<
       }
     })
 
-    return response.data.choices[0].message.content || "Failed to generate newsletter content."
+    console.log("Perplexity response:", response.data)
+
+    const content = response.data.choices[0].message.content || "Failed to generate newsletter content."
+    const citations = response.data.citations || []
+
+    return { content, citations }
   } catch (error) {
     console.error("Error generating newsletter with Perplexity:", error)
     throw new Error("Failed to generate newsletter content with Perplexity")
@@ -65,7 +70,7 @@ export async function testPerplexityAPI(): Promise<boolean> {
     
     const testPrompt = "Generate a short test newsletter about technology trends."
     const result = await generateNewsletterWithPerplexity(testPrompt)
-    return result.length > 0
+    return result.content.length > 0
   } catch (error) {
     console.error("Perplexity API test failed:", error)
     return false

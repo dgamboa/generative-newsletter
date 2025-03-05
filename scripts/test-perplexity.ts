@@ -35,8 +35,14 @@ async function testPerplexityAPI() {
     const result = await generateNewsletterWithPerplexity(testPrompt)
     
     console.log("\n--- Generated Newsletter ---\n")
-    console.log(result)
+    console.log(result.content)
     console.log("\n--- End of Newsletter ---\n")
+    
+    if (result.citations && result.citations.length > 0) {
+      console.log("\n--- Sources ---\n")
+      result.citations.forEach(citation => console.log(`- ${citation}`))
+      console.log("\n--- End of Sources ---\n")
+    }
     
     console.log("Test completed successfully!")
   } catch (error: any) {

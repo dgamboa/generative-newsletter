@@ -15,6 +15,13 @@
       "when": 1740785084973,
       "tag": "0001_lying_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741215958807,
+      "tag": "0002_rare_gamma_corps",
+      "breakpoints": true
     }
   ]
 }

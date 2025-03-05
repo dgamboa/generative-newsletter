@@ -22,12 +22,17 @@ export default function NewsletterEditor({
 }: NewsletterEditorProps) {
   const [title, setTitle] = useState(initialNewsletter.title)
   const [content, setContent] = useState(initialNewsletter.content)
+  const [citations, setCitations] = useState<string[]>(initialNewsletter.citations || [])
   const [recipients, setRecipients] = useState<string[]>(initialNewsletter.recipients || [])
   const [recipientInput, setRecipientInput] = useState("")
+  const [citationInput, setCitationInput] = useState("")
   const [isSaving, setIsSaving] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [activeTab, setActiveTab] = useState("edit")
+  const [sourcesExpanded, setSourcesExpanded] = useState(
+    (initialNewsletter.citations && initialNewsletter.citations.length > 0) || false
+  )
   const router = useRouter()
   const { toast } = useToast()
 
@@ -55,12 +60,24 @@ export default function NewsletterEditor({
       return
     }
 
+    // Filter out invalid URLs from citations
+    const validCitations = citations.filter(citation => isValidUrl(citation));
+    if (validCitations.length !== citations.length) {
+      toast({
+        title: "Warning",
+        description: "Some invalid source URLs were removed",
+        variant: "default"
+      });
+      setCitations(validCitations);
+    }
+
     setIsSaving(true)
     
     try {
       const result = await updateNewsletterAction(initialNewsletter.id, {
         title,
-        content
+        content,
+        citations: validCitations
       })
       
       if (result.status === "success") {
@@ -158,6 +175,57 @@ export default function NewsletterEditor({
     }
   }
 
+  // Add a URL validation function
+  const isValidUrl = (url: string): boolean => {
+    try {
+      new URL(url);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  const handleAddCitation = () => {
+    if (!citationInput.trim()) return;
+    
+    // URL validation
+    if (!isValidUrl(citationInput)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid URL (e.g., https://example.com)",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setCitations([...citations, citationInput.trim()]);
+    setCitationInput("");
+  };
+
+  const handleUpdateCitation = (index: number, value: string) => {
+    // Allow empty value during editing
+    if (!value.trim()) {
+      const newCitations = [...citations];
+      newCitations[index] = value;
+      setCitations(newCitations);
+      return;
+    }
+    
+    // URL validation
+    if (!isValidUrl(value)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid URL (e.g., https://example.com)",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    const newCitations = [...citations];
+    newCitations[index] = value.trim();
+    setCitations(newCitations);
+  };
+
   if (!mounted) {
     return (
       <div className="space-y-8">
@@ -211,10 +279,178 @@ export default function NewsletterEditor({
         
         <TabsContent value="edit" className="space-y-4 bg-white rounded-md p-4">
           <TipTapEditor value={content} onChange={setContent} />
+          
+          <div className="mt-8 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={() => setSourcesExpanded(!sourcesExpanded)}
+              className="flex items-center justify-between w-full text-left"
+            >
+              <h3 className="text-lg font-medium text-black">
+                Sources {citations.length > 0 && `(${citations.length})`}
+              </h3>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`transition-transform ${sourcesExpanded ? 'rotate-180' : ''}`}
+              >
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            
+            {sourcesExpanded && (
+              <div className="space-y-3 mt-3">
+                {citations.map((citation, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="relative flex-1">
+                      <Input
+                        value={citation}
+                        onChange={(e) => {
+                          // Allow typing without validation
+                          const newCitations = [...citations];
+                          newCitations[index] = e.target.value;
+                          setCitations(newCitations);
+                        }}
+                        onBlur={(e) => handleUpdateCitation(index, e.target.value)}
+                        placeholder="Enter source URL"
+                        className={`pr-8 ${citation && !isValidUrl(citation) ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                      />
+                      {citation && (
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                          {isValidUrl(citation) ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="text-green-500"
+                            >
+                              <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="text-red-500"
+                            >
+                              <path d="M18 6 6 18" />
+                              <path d="m6 6 12 12" />
+                            </svg>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        const newCitations = citations.filter((_, i) => i !== index);
+                        setCitations(newCitations);
+                      }}
+                      className="shrink-0"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                    </Button>
+                  </div>
+                ))}
+                
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="relative flex-1">
+                    <Input
+                      placeholder="Add a new source URL"
+                      value={citationInput}
+                      onChange={(e) => setCitationInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleAddCitation();
+                        }
+                      }}
+                      className={`pr-8 ${citationInput && !isValidUrl(citationInput) ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                    />
+                    {citationInput && (
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                        {isValidUrl(citationInput) ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-green-500"
+                          >
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-red-500"
+                          >
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                          </svg>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <Button
+                    onClick={handleAddCitation}
+                    className="shrink-0"
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </TabsContent>
         
         <TabsContent value="preview">
-          <NewsletterPreview title={title} content={content} />
+          <NewsletterPreview title={title} content={content} citations={citations} />
         </TabsContent>
         
         <TabsContent value="recipients" className="space-y-6">

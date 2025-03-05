@@ -25,8 +25,12 @@ export async function generateNewsletterAction(
 
     // Generate newsletter content using the selected provider
     let content: string
+    let citations: string[] = []
+    
     if (provider === "perplexity") {
-      content = await generateNewsletterWithPerplexity(prompt)
+      const result = await generateNewsletterWithPerplexity(prompt)
+      content = result.content
+      citations = result.citations
     } else {
       content = await generateNewsletter(prompt)
     }
@@ -37,7 +41,8 @@ export async function generateNewsletterAction(
       title,
       content,
       status: "draft",
-      recipients: []
+      recipients: [],
+      citations
     })
 
     return {

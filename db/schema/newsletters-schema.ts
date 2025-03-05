@@ -9,6 +9,7 @@ export const newslettersTable = pgTable("newsletters", {
   content: text("content").notNull(),
   status: statusEnum("status").notNull().default("draft"),
   recipients: text("recipients").array(),
+  citations: text("citations").array(),
   sentAt: timestamp("sent_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
