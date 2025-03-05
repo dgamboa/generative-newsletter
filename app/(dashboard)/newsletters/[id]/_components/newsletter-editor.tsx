@@ -193,7 +193,7 @@ export default function NewsletterEditor({
           <TabsTrigger value="recipients">Recipients</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="edit" className="space-y-4">
+        <TabsContent value="edit" className="space-y-4 bg-white rounded-md p-4">
           <TipTapEditor value={content} onChange={setContent} />
         </TabsContent>
         
