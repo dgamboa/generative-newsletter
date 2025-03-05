@@ -48,13 +48,13 @@ export async function sendNewsletterAction(
       emailContent += `
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
           <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">Sources</h3>
-          <ul style="padding-left: 20px;">
-            ${newsletter.citations.map((citation: string) => `
+          <ol style="padding-left: 20px;">
+            ${newsletter.citations.map((citation: string, index: number) => `
               <li style="margin-bottom: 5px;">
                 <a href="${citation}" style="color: #3b82f6; text-decoration: none;">${citation}</a>
               </li>
             `).join('')}
-          </ul>
+          </ol>
         </div>
       `;
     }
