@@ -11,7 +11,7 @@ export type LLMProvider = "openai" | "perplexity"
 export async function generateNewsletterAction(
   prompt: string,
   title: string,
-  provider: LLMProvider = "openai"
+  provider: LLMProvider = "perplexity"
 ): Promise<ActionState> {
   try {
     const { userId } = await auth()
