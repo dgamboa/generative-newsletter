@@ -13,12 +13,6 @@ export async function generateNewsletter(prompt: string): Promise<string> {
           role: "system",
           content: `You are a professional newsletter writer. Your task is to create a well-structured, informative, and engaging newsletter based on the provided prompt. 
           
-          The newsletter should include:
-          1. A compelling title
-          2. An introduction that sets the context
-          3. 3-5 main sections with relevant content
-          4. A conclusion or call to action
-          
           Format the content with appropriate HTML tags for email rendering.`
         },
         {
