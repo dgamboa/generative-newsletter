@@ -10,20 +10,15 @@ Recent developments, breakthroughs, and practical applications in technology and
 Focus on developments in February 2025.
 
 ## Structure
-1. Introduction - Set the context for this week's technology and AI developments
-2. Major News - Cover up to 5 significant developments in AI including a headline and a brief description of the development. These news should focus on new model announcements, product launches, major lawsuits, and any major technological breakthroughs. You should include at least 2, but no more than 5.
-3. Company News - Cover up to 3 news specific to companies like fundraisers, major stock price changes, earnings releases, key leadership changes, or other company-specific announcements. Don't include product announcements in this section.
-5. Conclusion - Summarize key takeaways and look ahead
+1. Introduction - Set the context for this week's technology and AI developments in 60 words or less.
+2. This Month in AI - Cover the 5 most significant developments in AI. Each development should include a drescriptive headline followed by a paragraph of 80 words or less describing the development. These news should focus on new model announcements, product launches, major lawsuits, and any major technological breakthroughs or important news.
+3. Trending Topics - Cover the top 3 trending topics in AI. This should focus on what is popular on the internet (social media, news sites) at the time of the search. Don't include items that are already covered in the section above. This might include the latest tutorial or tweet from a prominent person, a surprising earnings release, a sudden leadership change at a tech company, speculation about the release of a new model, or other topics.
+5. Conclusion - Summarize key takeaways and look to the month ahead in 50 words or less.
 
 ## Tone
 Professional but accessible. Explain complex concepts in straightforward language without oversimplifying.
 
-## Length
-Approximately 800-1000 words total.
-
 ## Additional Instructions
-- Include relevant links where appropriate
 - Format with clear headings and subheadings
 - Use bullet points for lists where appropriate
-- Avoid jargon without explanation
-- Focus on factual information rather than speculation 
+- Avoid jargon
