@@ -78,11 +78,4 @@ import { generateNewsletterAction } from "@/actions/newsletter-generation-action
 const result = await generateNewsletterAction(prompt, title, "perplexity")
 ```
 
-### API Endpoints
-
-The following API endpoints are available for testing:
-
-- GET `/api/perplexity/test` - Tests if the Perplexity API is working
-- POST `/api/perplexity/generate` - Generates a newsletter using Perplexity (requires a prompt in the request body)
-
 If you continue to experience issues, please refer to the [Perplexity API documentation](https://docs.perplexity.ai/api-reference/chat-completions) for more information. 
