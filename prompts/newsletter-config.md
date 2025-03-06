@@ -1,8 +1,5 @@
 # Newsletter Configuration
 
-## Title
-The title of the newsletter is Pamphlet, AI Trends. That should be followed by today's date. For example, if the request comes in on March 5th, the title should be "Pamphlet, AI trends on March 5th"
-
 ## Focus
 Recent developments, breakthroughs, and practical applications in technology and artificial intelligence.
 

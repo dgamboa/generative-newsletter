@@ -35,9 +35,6 @@ export async function generatePromptFromCustomConfig(config: NewsletterConfig): 
     // Convert the config object to markdown format
     const configMarkdown = `# Newsletter Configuration
 
-## Title
-${config.title}
-
 ## Focus
 ${config.focus}
 
@@ -58,7 +55,7 @@ ${config.additionalInstructions}` : ''}
     
 ${configMarkdown}
 
-Create a complete, well-structured newsletter that follows all the guidelines above. The newsletter should be formatted with HTML for email delivery.`
+Create a complete, well-structured newsletter that follows all the guidelines above. The newsletter should be formatted with HTML for email delivery. Start directly with the introduction paragraph, do not include a title at the top.`
   } catch (error) {
     console.error("Error generating prompt from custom config:", error)
     throw new Error("Failed to generate prompt from custom configuration")

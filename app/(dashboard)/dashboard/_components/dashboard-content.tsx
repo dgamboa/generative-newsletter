@@ -5,9 +5,11 @@ import { SelectNewsletter } from "@/db/schema"
 import { deleteNewsletterAction } from "@/actions/db/newsletters-actions"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import NewsletterCard from "@/components/ui/newsletter-card"
-import { PlusIcon } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 interface DashboardContentProps {
   initialNewsletters: SelectNewsletter[]
@@ -19,11 +21,22 @@ export default function DashboardContent({
   userId
 }: DashboardContentProps) {
   const [newsletters, setNewsletters] = useState<SelectNewsletter[]>(initialNewsletters)
+  const [title, setTitle] = useState("")
   const router = useRouter()
   const { toast } = useToast()
 
   const handleNavigateToConfig = () => {
-    router.push('/newsletters/config')
+    if (!title.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a title for your newsletter",
+        variant: "destructive"
+      })
+      return
+    }
+    
+    // Pass the title as a query parameter
+    router.push(`/newsletters/config?title=${encodeURIComponent(title)}`)
   }
 
   const handleDeleteNewsletter = async (id: string) => {
@@ -55,13 +68,25 @@ export default function DashboardContent({
 
   return (
     <div>
-      <div className="mb-8 flex justify-end">
+      <div className="mb-8 flex flex-col sm:flex-row gap-4 items-end">
+        <div className="flex-1">
+          <Label htmlFor="title" className="block text-sm font-medium mb-1">
+            Newsletter Title
+          </Label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter newsletter title"
+            className="dark:bg-[#222] dark:border-gray-700"
+          />
+        </div>
         <Button 
           onClick={handleNavigateToConfig} 
           className="flex items-center gap-2 bg-[#208036] hover:bg-[#208036]/90 dark:bg-[#40b25d] dark:hover:bg-[#40b25d]/90"
         >
-          <PlusIcon size={16} />
-          Generate Newsletter
+          Start Newsletter
+          <ArrowRight size={16} />
         </Button>
       </div>
 

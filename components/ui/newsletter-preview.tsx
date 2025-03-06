@@ -24,7 +24,7 @@ export default function NewsletterPreview({
         
         {citations && citations.length > 0 && (
           <div className="mt-8 pt-4 border-t border-gray-200">
-            <h3 className="text-lg font-semibold mb-2">Sources</h3>
+            <h3 className="text-lg font-semibold mb-2 text-black">Sources</h3>
             <ol className="list-decimal pl-5 space-y-1 text-sm text-gray-600">
               {citations.map((citation, index) => (
                 <li key={index}>

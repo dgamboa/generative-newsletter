@@ -20,14 +20,14 @@ import { generateNewsletterAction } from "@/actions/newsletter-generation-action
 import { generatePromptFromCustomConfig } from "@/lib/newsletter-config"
 
 interface NewsletterConfigFormProps {
-  initialConfig: string
+  initialConfig: string;
+  title: string;
 }
 
-export default function NewsletterConfigForm({ initialConfig }: NewsletterConfigFormProps) {
+export default function NewsletterConfigForm({ initialConfig, title }: NewsletterConfigFormProps) {
   const [isGenerating, setIsGenerating] = useState(false)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const [config, setConfig] = useState<NewsletterConfig>({
-    title: "",
     focus: "",
     timePeriod: "",
     tone: "Formal & Professional",
@@ -40,7 +40,6 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
   useEffect(() => {
     // Parse the initial config to populate the form
     if (initialConfig) {
-      const titleMatch = initialConfig.match(/## Title\n([\s\S]*?)(?=\n## |$)/)
       const focusMatch = initialConfig.match(/## Focus\n([\s\S]*?)(?=\n## |$)/)
       const timePeriodMatch = initialConfig.match(/## Time Period\n([\s\S]*?)(?=\n## |$)/)
       const toneMatch = initialConfig.match(/## Tone\n([\s\S]*?)(?=\n## |$)/)
@@ -48,7 +47,6 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
       const additionalInstructionsMatch = initialConfig.match(/## Additional Instructions\n([\s\S]*?)(?=\n## |$)/)
 
       setConfig({
-        title: titleMatch ? titleMatch[1].trim() : "",
         focus: focusMatch ? focusMatch[1].trim() : "",
         timePeriod: timePeriodMatch ? timePeriodMatch[1].trim() : "",
         tone: "Formal & Professional", // Default value
@@ -68,10 +66,10 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!config.title.trim()) {
+    if (!title.trim()) {
       toast({
         title: "Error",
-        description: "Please enter a title for your newsletter",
+        description: "Please go back and enter a title for your newsletter",
         variant: "destructive"
       })
       return
@@ -84,7 +82,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
       const customPrompt = await generatePromptFromCustomConfig(config)
       
       // Generate the newsletter
-      const result = await generateNewsletterAction(customPrompt, config.title)
+      const result = await generateNewsletterAction(customPrompt, title)
       
       if (result.status === "success" && result.data) {
         toast({
@@ -123,17 +121,6 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
     <Card>
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              value={config.title}
-              onChange={(e) => handleChange("title", e.target.value)}
-              placeholder="Enter newsletter title format"
-              disabled={isFormDisabled}
-            />
-          </div>
-          
           <div className="space-y-2">
             <Label htmlFor="focus">Focus</Label>
             <Input

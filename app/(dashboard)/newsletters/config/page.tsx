@@ -5,20 +5,27 @@ import { getNewsletterConfig } from "@/lib/newsletter-config"
 import NewsletterConfigForm from "./_components/newsletter-config-form"
 import NewsletterConfigSkeleton from "./_components/newsletter-config-skeleton"
 
-export default async function NewsletterConfigPage() {
+interface NewsletterConfigPageProps {
+  searchParams: { title?: string }
+}
+
+export default async function NewsletterConfigPage({ searchParams }: NewsletterConfigPageProps) {
+  const title = searchParams.title || ""
+  
   return (
     <div className="py-8">
-      <h1 className="text-3xl font-bold mb-8">Newsletter Configuration</h1>
+      <h1 className="text-3xl font-bold mb-2">Newsletter Configuration</h1>
+      {title && <h2 className="text-xl text-muted-foreground mb-8"><span className="text-primary font-bold">Title: </span>{title}</h2>}
       
       <Suspense fallback={<NewsletterConfigSkeleton />}>
-        <NewsletterConfigFetcher />
+        <NewsletterConfigFetcher title={title} />
       </Suspense>
     </div>
   )
 }
 
-async function NewsletterConfigFetcher() {
+async function NewsletterConfigFetcher({ title }: { title: string }) {
   const configContent = await getNewsletterConfig()
   
-  return <NewsletterConfigForm initialConfig={configContent} />
+  return <NewsletterConfigForm initialConfig={configContent} title={title} />
 } 
