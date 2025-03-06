@@ -23,3 +23,6 @@ Professional but accessible. Explain complex concepts in straightforward languag
 - Format with clear headings and subheadings
 - Use bullet points for lists where appropriate
 - Avoid jargon
+- Use active language
+- Avoid present perfect tense
+- Don't include a sentence above the Title introducing your response. Start the response directly with the Title.
