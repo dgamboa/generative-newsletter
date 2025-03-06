@@ -3,11 +3,8 @@
 import { useState } from "react"
 import { SelectNewsletter } from "@/db/schema"
 import { deleteNewsletterAction } from "@/actions/db/newsletters-actions"
-import { generateNewsletterAction } from "@/actions/newsletter-generation-actions"
-import { generatePromptFromConfig } from "@/lib/newsletter-config"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 import NewsletterCard from "@/components/ui/newsletter-card"
 import { PlusIcon } from "lucide-react"
@@ -22,52 +19,11 @@ export default function DashboardContent({
   userId
 }: DashboardContentProps) {
   const [newsletters, setNewsletters] = useState<SelectNewsletter[]>(initialNewsletters)
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [title, setTitle] = useState("")
   const router = useRouter()
   const { toast } = useToast()
 
-  const handleGenerateNewsletter = async () => {
-    if (!title.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a title for your newsletter",
-        variant: "destructive"
-      })
-      return
-    }
-
-    setIsGenerating(true)
-    
-    try {
-      const prompt = await generatePromptFromConfig()
-      const result = await generateNewsletterAction(prompt, title)
-      
-      if (result.status === "success" && result.data) {
-        toast({
-          title: "Success",
-          description: "Newsletter generated successfully"
-        })
-        
-        // Navigate to the edit page for the new newsletter
-        router.push(`/newsletters/${result.data.id}`)
-      } else {
-        toast({
-          title: "Error",
-          description: result.message || "Failed to generate newsletter",
-          variant: "destructive"
-        })
-      }
-    } catch (error) {
-      console.error("Error generating newsletter:", error)
-      toast({
-        title: "Error",
-        description: "Failed to generate newsletter",
-        variant: "destructive"
-      })
-    } finally {
-      setIsGenerating(false)
-    }
+  const handleNavigateToConfig = () => {
+    router.push('/newsletters/config')
   }
 
   const handleDeleteNewsletter = async (id: string) => {
@@ -99,27 +55,13 @@ export default function DashboardContent({
 
   return (
     <div>
-      <div className="mb-8 flex flex-col sm:flex-row gap-4 items-end">
-        <div className="flex-1">
-          <label htmlFor="title" className="block text-sm font-medium mb-1">
-            Newsletter Title
-          </label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter newsletter title"
-            disabled={isGenerating}
-            className="dark:bg-[#222] dark:border-gray-700"
-          />
-        </div>
+      <div className="mb-8 flex justify-end">
         <Button 
-          onClick={handleGenerateNewsletter} 
-          disabled={isGenerating}
+          onClick={handleNavigateToConfig} 
           className="flex items-center gap-2 bg-[#208036] hover:bg-[#208036]/90 dark:bg-[#40b25d] dark:hover:bg-[#40b25d]/90"
         >
           <PlusIcon size={16} />
-          {isGenerating ? "Generating..." : "Generate Newsletter"}
+          Generate Newsletter
         </Button>
       </div>
 
