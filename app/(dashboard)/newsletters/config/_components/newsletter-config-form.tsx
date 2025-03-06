@@ -25,6 +25,7 @@ interface NewsletterConfigFormProps {
 
 export default function NewsletterConfigForm({ initialConfig }: NewsletterConfigFormProps) {
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false)
   const [config, setConfig] = useState<NewsletterConfig>({
     title: "",
     focus: "",
@@ -91,6 +92,9 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
           description: "Newsletter generated successfully"
         })
         
+        // Set redirecting state before navigation
+        setIsRedirecting(true)
+        
         // Navigate to the edit page for the new newsletter
         router.push(`/newsletters/${result.data.id}`)
       } else {
@@ -99,6 +103,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
           description: result.message || "Failed to generate newsletter",
           variant: "destructive"
         })
+        setIsGenerating(false)
       }
     } catch (error) {
       console.error("Error generating newsletter:", error)
@@ -107,10 +112,12 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
         description: "Failed to generate newsletter",
         variant: "destructive"
       })
-    } finally {
       setIsGenerating(false)
     }
   }
+
+  // Form is disabled if either generating or redirecting
+  const isFormDisabled = isGenerating || isRedirecting
 
   return (
     <Card>
@@ -123,7 +130,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
               value={config.title}
               onChange={(e) => handleChange("title", e.target.value)}
               placeholder="Enter newsletter title format"
-              disabled={isGenerating}
+              disabled={isFormDisabled}
             />
           </div>
           
@@ -134,7 +141,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
               value={config.focus}
               onChange={(e) => handleChange("focus", e.target.value)}
               placeholder="What should the newsletter focus on?"
-              disabled={isGenerating}
+              disabled={isFormDisabled}
             />
           </div>
           
@@ -145,7 +152,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
               value={config.timePeriod}
               onChange={(e) => handleChange("timePeriod", e.target.value)}
               placeholder="What time period should the newsletter cover?"
-              disabled={isGenerating}
+              disabled={isFormDisabled}
             />
           </div>
           
@@ -154,7 +161,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
             <Select
               value={config.tone}
               onValueChange={(value) => handleChange("tone", value)}
-              disabled={isGenerating}
+              disabled={isFormDisabled}
             >
               <SelectTrigger id="tone">
                 <SelectValue placeholder="Select tone" />
@@ -175,7 +182,7 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
               onChange={(e) => handleChange("structure", e.target.value)}
               placeholder="Define the structure of your newsletter"
               className="min-h-32"
-              disabled={isGenerating}
+              disabled={isFormDisabled}
             />
           </div>
           
@@ -187,16 +194,16 @@ export default function NewsletterConfigForm({ initialConfig }: NewsletterConfig
               onChange={(e) => handleChange("additionalInstructions", e.target.value)}
               placeholder="Any additional instructions for the newsletter generation"
               className="min-h-32"
-              disabled={isGenerating}
+              disabled={isFormDisabled}
             />
           </div>
           
           <Button 
             type="submit" 
-            disabled={isGenerating}
+            disabled={isFormDisabled}
             className="w-full bg-[#208036] hover:bg-[#208036]/90 dark:bg-[#40b25d] dark:hover:bg-[#40b25d]/90"
           >
-            {isGenerating ? "Generating..." : "Generate Newsletter"}
+            {isGenerating ? "Generating..." : isRedirecting ? "Redirecting..." : "Generate Newsletter"}
           </Button>
         </form>
       </CardContent>
