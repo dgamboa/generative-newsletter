@@ -8,12 +8,16 @@ import DashboardSkeleton from "./_components/dashboard-skeleton"
 
 export default async function DashboardPage() {
   return (
-    <div className="py-8">
-      <h1 className="text-3xl font-bold mb-8">Your Newsletters</h1>
+    <div className="py-6 md:py-8">
+      <div className="flex items-center mb-8 gap-3">
+        <h1 className="text-3xl font-bold tracking-tight">Your Newsletters</h1>
+      </div>
       
-      <Suspense fallback={<DashboardSkeleton />}>
-        <DashboardContentFetcher />
-      </Suspense>
+      <div className="bg-card rounded-xl shadow-sm border p-6 md:p-8">
+        <Suspense fallback={<DashboardSkeleton />}>
+          <DashboardContentFetcher />
+        </Suspense>
+      </div>
     </div>
   )
 }

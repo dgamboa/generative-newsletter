@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import NewsletterCard from "@/components/ui/newsletter-card"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, PlusCircle } from "lucide-react"
 
 interface DashboardContentProps {
   initialNewsletters: SelectNewsletter[]
@@ -68,37 +68,41 @@ export default function DashboardContent({
 
   return (
     <div>
-      <div className="mb-8 flex flex-col sm:flex-row gap-4 items-end">
-        <div className="flex-1">
-          <Label htmlFor="title" className="block text-sm font-medium mb-1">
-            Newsletter Title
-          </Label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter newsletter title"
-            className="dark:bg-[#222] dark:border-gray-700"
-          />
+      <div className="mb-8 p-6 border bg-card/50 rounded-lg shadow-sm">
+        <h2 className="text-lg font-medium mb-4">Create a New Newsletter</h2>
+        <div className="flex flex-col sm:flex-row gap-4 items-end">
+          <div className="flex-1">
+            <Label htmlFor="title" className="block text-sm font-medium mb-2 text-foreground/80">
+              Newsletter Title
+            </Label>
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter newsletter title"
+              className="bg-background dark:bg-card border-input/50 focus:ring-2 ring-primary/20 transition-all"
+            />
+          </div>
+          <Button 
+            onClick={handleNavigateToConfig} 
+            className="flex items-center gap-2 bg-primary hover:bg-primary/90 shadow-sm hover:shadow transition-all"
+          >
+            <PlusCircle size={16} />
+            Create Newsletter
+          </Button>
         </div>
-        <Button 
-          onClick={handleNavigateToConfig} 
-          className="flex items-center gap-2 bg-[#208036] hover:bg-[#208036]/90 dark:bg-[#40b25d] dark:hover:bg-[#40b25d]/90"
-        >
-          Start Newsletter
-          <ArrowRight size={16} />
-        </Button>
       </div>
 
       {newsletters.length === 0 ? (
-        <div className="text-center py-12 border rounded-lg bg-muted/50">
-          <h3 className="text-lg font-medium mb-2">No newsletters yet</h3>
-          <p className="text-muted-foreground mb-4">
-            Generate your first newsletter to get started
+        <div className="text-center py-16 border rounded-lg bg-muted/20 animate-in fade-in duration-500">
+          <h3 className="text-lg font-medium mb-3">No newsletters yet</h3>
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+            Generate your first newsletter to get started with AI-powered content creation
           </p>
+          <div className="w-16 h-1 bg-primary/30 mx-auto rounded-full"></div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-500">
           {newsletters.map((newsletter) => (
             <NewsletterCard
               key={newsletter.id}

@@ -15,8 +15,10 @@ export default async function DashboardLayout({
   }
   
   return (
-    <div className="container mx-auto px-4">
-      {children}
+    <div className="min-h-[calc(100vh-64px)] bg-gradient-to-b from-background to-muted/30">
+      <div className="container mx-auto px-4 py-4 md:py-8 max-w-7xl">
+        {children}
+      </div>
     </div>
   )
 } 
