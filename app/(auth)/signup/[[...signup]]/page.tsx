@@ -7,10 +7,9 @@ import { useTheme } from "next-themes";
 export default function SignUpPage() {
   const { theme } = useTheme();
 
-//   TODO: Update the redirect route
   return (
     <SignUp
-      forceRedirectUrl="/placeholder"
+      forceRedirectUrl="/dashboard"
       appearance={{ baseTheme: theme === "dark" ? dark : undefined }}
     />
   );
