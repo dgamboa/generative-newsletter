@@ -10,7 +10,7 @@ export default function Home() {
     <div className="container mx-auto px-4 py-8">
       <section className="py-16 md:py-24 lg:py-32 flex flex-col items-center text-center border-b">
         <div className="space-y-6 max-w-3xl mx-auto">
-          <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4 animate-in fade-in slide-in-from-bottom-4 duration-500 border border-primary/20">
             Newsletter Creation Made Simple
           </div>
           <h1 className="text-5xl md:text-6xl tracking-tight animate-in fade-in slide-in-from-bottom-5 duration-700">
@@ -38,7 +38,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 border-t border-white">
+      <section className="py-16 md:py-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Key Features</h2>
           <p className="text-xl text-muted-foreground max-w-[700px] mx-auto">
