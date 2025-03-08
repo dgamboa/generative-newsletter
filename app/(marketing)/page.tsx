@@ -47,7 +47,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white flex flex-col items-center text-center p-8 border rounded-xl shadow-md">
+          <div className="bg-secondary/20 flex flex-col items-center text-center p-8 border rounded-xl shadow-md">
             <div className="bg-primary/10 p-4 rounded-full mb-6 group-hover:bg-primary/20 transition-colors">
               <Sparkles className="h-8 w-8 text-primary" />
             </div>
@@ -57,7 +57,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-white flex flex-col items-center text-center p-8 border rounded-xl shadow-md">
+          <div className="bg-secondary/20 flex flex-col items-center text-center p-8 border rounded-xl shadow-md">
             <div className="bg-primary/10 p-4 rounded-full mb-6 group-hover:bg-primary/20 transition-colors">
               <Edit className="h-8 w-8 text-primary" />
             </div>
@@ -67,7 +67,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-white flex flex-col items-center text-center p-8 border rounded-xl shadow-md">
+          <div className="bg-secondary/20 flex flex-col items-center text-center p-8 border rounded-xl shadow-md">
             <div className="bg-primary/10 p-4 rounded-full mb-6 group-hover:bg-primary/20 transition-colors">
               <Mail className="h-8 w-8 text-primary" />
             </div>

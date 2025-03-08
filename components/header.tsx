@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-b from-background to-muted/30 text-foreground sticky top-0 z-50 border-b border-border p-5">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between border-t border-white">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2 group">
           <span className="text-2xl font-medium tracking-tight transition-transform group-hover:scale-105">
             <span className="text-foreground">New</span>
