@@ -28,6 +28,7 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
   const [isGenerating, setIsGenerating] = useState(false)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const [config, setConfig] = useState<NewsletterConfig>({
+    title: title,
     focus: "",
     timePeriod: "",
     tone: "Formal & Professional",
@@ -47,6 +48,7 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
       const additionalInstructionsMatch = initialConfig.match(/## Additional Instructions\n([\s\S]*?)(?=\n## |$)/)
 
       setConfig({
+        title: title,
         focus: focusMatch ? focusMatch[1].trim() : "",
         timePeriod: timePeriodMatch ? timePeriodMatch[1].trim() : "",
         tone: "Formal & Professional", // Default value
@@ -54,7 +56,7 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
         additionalInstructions: additionalInstructionsMatch ? additionalInstructionsMatch[1].trim() : ""
       })
     }
-  }, [initialConfig])
+  }, [initialConfig, title])
 
   const handleChange = (field: keyof NewsletterConfig, value: string) => {
     setConfig(prev => ({
@@ -66,10 +68,10 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!title.trim()) {
+    if (!config.title?.trim()) {
       toast({
         title: "Error",
-        description: "Please go back and enter a title for your newsletter",
+        description: "Please enter a title for your newsletter",
         variant: "destructive"
       })
       return
@@ -82,7 +84,7 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
       const customPrompt = await generatePromptFromCustomConfig(config)
       
       // Generate the newsletter
-      const result = await generateNewsletterAction(customPrompt, title)
+      const result = await generateNewsletterAction(customPrompt, config.title)
       
       if (result.status === "success" && result.data) {
         toast({
@@ -121,6 +123,17 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
     <Card>
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="title">Newsletter Title</Label>
+            <Input
+              id="title"
+              value={config.title || ""}
+              onChange={(e) => handleChange("title", e.target.value)}
+              placeholder="Enter a title for your newsletter"
+              disabled={isFormDisabled}
+            />
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="focus">Focus</Label>
             <Input

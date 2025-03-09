@@ -34,7 +34,10 @@ export async function generatePromptFromCustomConfig(config: NewsletterConfig): 
   try {
     // Convert the config object to markdown format
     const configMarkdown = `# Newsletter Configuration
-
+${config.title ? `
+## Title
+${config.title}
+` : ''}
 ## Focus
 ${config.focus}
 

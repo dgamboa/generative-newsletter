@@ -15,8 +15,6 @@ export default async function NewsletterConfigPage({ searchParams }: NewsletterC
   return (
     <div className="py-8">
       <h1 className="text-3xl font-bold mb-2">Newsletter Configuration</h1>
-      {title && <h2 className="text-xl text-muted-foreground mb-8"><span className="text-primary font-bold">Title: </span>{title}</h2>}
-      
       <Suspense fallback={<NewsletterConfigSkeleton />}>
         <NewsletterConfigFetcher title={title} />
       </Suspense>
