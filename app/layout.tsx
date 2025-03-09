@@ -54,9 +54,6 @@ export default async function RootLayout({
             <Header />
             {children}
             <Toaster />
-            <footer className="py-6 text-center text-sm text-muted-foreground bg-background">
-              <p>© {new Date().getFullYear()} NewStream. All rights reserved.</p>
-            </footer>
           </Providers>
         </body>
       </html>

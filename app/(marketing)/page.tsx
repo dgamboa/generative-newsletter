@@ -78,6 +78,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <footer className="py-6 text-center text-sm text-muted-foreground bg-background">
+        <p>© {new Date().getFullYear()} Pamphlet. All rights reserved.</p>
+      </footer>
     </div>
   )
 }
