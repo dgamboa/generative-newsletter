@@ -33,7 +33,8 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
     timePeriod: "",
     tone: "Formal & Professional",
     structure: "",
-    additionalInstructions: ""
+    additionalInstructions: "",
+    templateStyle: "classic"
   })
   const router = useRouter()
   const { toast } = useToast()
@@ -53,7 +54,8 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
         timePeriod: timePeriodMatch ? timePeriodMatch[1].trim() : "",
         tone: "Formal & Professional", // Default value
         structure: structureMatch ? structureMatch[1].trim() : "",
-        additionalInstructions: additionalInstructionsMatch ? additionalInstructionsMatch[1].trim() : ""
+        additionalInstructions: additionalInstructionsMatch ? additionalInstructionsMatch[1].trim() : "",
+        templateStyle: "classic" // Default template style
       })
     }
   }, [initialConfig, title])

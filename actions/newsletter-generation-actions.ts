@@ -41,6 +41,7 @@ export async function generateNewsletterAction(
       title,
       content,
       status: "draft",
+      templateStyle: "classic",
       recipients: [],
       citations
     })

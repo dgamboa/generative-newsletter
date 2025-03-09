@@ -5,4 +5,5 @@ export interface NewsletterConfig {
   tone: "Formal & Professional" | "Casual & Friendly" | "Technical & Detailed";
   structure: string;
   additionalInstructions?: string;
+  templateStyle?: "classic" | "modern" | "minimal";
 } 

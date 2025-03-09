@@ -22,6 +22,9 @@ export default function NewsletterEditor({
 }: NewsletterEditorProps) {
   const [title, setTitle] = useState(initialNewsletter.title)
   const [content, setContent] = useState(initialNewsletter.content)
+  const [templateStyle, setTemplateStyle] = useState<"classic" | "modern" | "minimal">(
+    initialNewsletter.templateStyle as "classic" | "modern" | "minimal" || "classic"
+  )
   const [citations, setCitations] = useState<string[]>(initialNewsletter.citations || [])
   const [recipients, setRecipients] = useState<string[]>(initialNewsletter.recipients || [])
   const [recipientInput, setRecipientInput] = useState("")
@@ -50,63 +53,64 @@ export default function NewsletterEditor({
 
   const handleSave = async (showToast = true) => {
     if (!title.trim()) {
-      if (showToast) {
-        toast({
-          title: "Error",
-          description: "Please enter a title for your newsletter",
-          variant: "destructive"
-        })
-      }
+      toast({
+        title: "Title required",
+        description: "Please enter a title for your newsletter",
+        variant: "destructive"
+      })
       return
     }
 
-    // Filter out invalid URLs from citations
-    const validCitations = citations.filter(citation => isValidUrl(citation));
-    if (validCitations.length !== citations.length) {
-      toast({
-        title: "Warning",
-        description: "Some invalid source URLs were removed",
-        variant: "default"
-      });
-      setCitations(validCitations);
-    }
-
     setIsSaving(true)
-    
+
     try {
       const result = await updateNewsletterAction(initialNewsletter.id, {
         title,
         content,
-        citations: validCitations
+        citations,
+        recipients,
+        templateStyle
       })
-      
-      if (result.status === "success") {
-        if (showToast) {
-          toast({
-            title: "Success",
-            description: "Newsletter saved successfully"
-          })
-        }
-      } else {
-        if (showToast) {
-          toast({
-            title: "Error",
-            description: result.message || "Failed to save newsletter",
-            variant: "destructive"
-          })
-        }
-      }
-    } catch (error) {
-      console.error("Error saving newsletter:", error)
-      if (showToast) {
+
+      if (result.status === "error") {
         toast({
           title: "Error",
-          description: "Failed to save newsletter",
+          description: result.message,
           variant: "destructive"
         })
+        return
       }
+
+      if (showToast) {
+        toast({
+          title: "Saved",
+          description: "Your newsletter has been saved"
+        })
+      }
+
+      router.refresh()
+    } catch (error) {
+      console.error("Error saving newsletter:", error)
+      toast({
+        title: "Error",
+        description: "Failed to save newsletter",
+        variant: "destructive"
+      })
     } finally {
       setIsSaving(false)
+    }
+  }
+  
+  // Handle template style change
+  const handleTemplateChange = (template: "classic" | "modern" | "minimal") => {
+    setTemplateStyle(template)
+    // Auto-save when template changes
+    if (title.trim()) {
+      updateNewsletterAction(initialNewsletter.id, {
+        templateStyle: template
+      }).then(() => {
+        router.refresh()
+      })
     }
   }
 
@@ -242,11 +246,10 @@ export default function NewsletterEditor({
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Edit Newsletter</h1>
-        <Button 
-          onClick={() => handleSave(true)} 
+    <div className="space-y-6">
+      <div className="flex justify-end">
+        <Button
+          onClick={() => handleSave()}
           disabled={isSaving}
           className="flex items-center gap-2"
         >
@@ -450,7 +453,13 @@ export default function NewsletterEditor({
         </TabsContent>
         
         <TabsContent value="preview">
-          <NewsletterPreview title={title} content={content} citations={citations} />
+          <NewsletterPreview 
+            title={title} 
+            content={content} 
+            citations={citations} 
+            templateStyle={templateStyle}
+            onTemplateChange={handleTemplateChange}
+          />
         </TabsContent>
         
         <TabsContent value="recipients" className="space-y-6">
