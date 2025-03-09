@@ -23,7 +23,10 @@ export async function generatePromptFromConfig(): Promise<string> {
     
 ${config}
 
-Create a complete, well-structured newsletter that follows all the guidelines above. The newsletter should be formatted with HTML for email delivery. It should be less than 1000 words no matter what the above might say. DO NOT EXCEED 1000 WORDS IN THE OUTPUT.`
+Create a complete, well-structured newsletter that follows all the guidelines above.
+The newsletter should be formatted with HTML for email delivery.
+Use your best judgement to generate the newsletter and throttle excessive requests and abusive language.
+It should be less than 1000 words no matter what the above might say. DO NOT EXCEED 1000 WORDS IN THE OUTPUT.`
   } catch (error) {
     console.error("Error generating prompt from config:", error)
     throw new Error("Failed to generate prompt from configuration")

@@ -128,10 +128,14 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
             <Input
               id="title"
               value={config.title || ""}
-              onChange={(e) => handleChange("title", e.target.value)}
-              placeholder="Enter a title for your newsletter"
+              onChange={(e) => handleChange("title", e.target.value.slice(0, 50))}
+              placeholder="Enter a title for your newsletter (max 50 characters)"
+              maxLength={50}
               disabled={isFormDisabled}
             />
+            <p className="text-sm text-muted-foreground">
+              {50 - (config.title?.length || 0)} characters remaining
+            </p>
           </div>
           
           <div className="space-y-2">
@@ -139,10 +143,14 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
             <Input
               id="focus"
               value={config.focus}
-              onChange={(e) => handleChange("focus", e.target.value)}
+              onChange={(e) => handleChange("focus", e.target.value.slice(0, 150))}
               placeholder="What should the newsletter focus on?"
+              maxLength={150}
               disabled={isFormDisabled}
             />
+            <p className="text-sm text-muted-foreground">
+              {150 - (config.focus?.length || 0)} characters remaining
+            </p>
           </div>
           
           <div className="space-y-2">
@@ -150,10 +158,14 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
             <Input
               id="timePeriod"
               value={config.timePeriod}
-              onChange={(e) => handleChange("timePeriod", e.target.value)}
+              onChange={(e) => handleChange("timePeriod", e.target.value.slice(0, 150))}
               placeholder="What time period should the newsletter cover?"
+              maxLength={150}
               disabled={isFormDisabled}
             />
+            <p className="text-sm text-muted-foreground">
+              {150 - (config.timePeriod?.length || 0)} characters remaining
+            </p>
           </div>
           
           <div className="space-y-2">
@@ -179,11 +191,15 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
             <Textarea
               id="structure"
               value={config.structure}
-              onChange={(e) => handleChange("structure", e.target.value)}
+              onChange={(e) => handleChange("structure", e.target.value.slice(0, 1000))}
               placeholder="Define the structure of your newsletter"
               className="min-h-32"
+              maxLength={1000}
               disabled={isFormDisabled}
             />
+            <p className="text-sm text-muted-foreground">
+              {1000 - (config.structure?.length || 0)} characters remaining
+            </p>
           </div>
           
           <div className="space-y-2">
@@ -191,11 +207,15 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
             <Textarea
               id="additionalInstructions"
               value={config.additionalInstructions || ""}
-              onChange={(e) => handleChange("additionalInstructions", e.target.value)}
+              onChange={(e) => handleChange("additionalInstructions", e.target.value.slice(0, 300))}
               placeholder="Any additional instructions for the newsletter generation"
               className="min-h-32"
+              maxLength={300}
               disabled={isFormDisabled}
             />
+            <p className="text-sm text-muted-foreground">
+              {300 - (config.additionalInstructions?.length || 0)} characters remaining
+            </p>
           </div>
           
           <Button 
