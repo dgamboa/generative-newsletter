@@ -8,13 +8,13 @@ import NewsletterEditor from "./_components/newsletter-editor"
 import NewsletterSkeleton from "./_components/newsletter-skeleton"
 
 interface NewsletterPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function NewsletterPage(props: NewsletterPageProps) {
-  const { id } = props.params
+  const { id } = await props.params
   
   return (
     <div className="py-8">
