@@ -79,7 +79,7 @@ export default function Home() {
         </div>
       </section>
       <footer className="py-6 text-center text-sm text-muted-foreground bg-background">
-        <p>© {new Date().getFullYear()} Pamphlet. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} NewStream. All rights reserved.</p>
       </footer>
     </div>
   )

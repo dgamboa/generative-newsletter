@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pamphlet",
+  title: "NewStream",
   description: "A prototype for a newsletter generation and distribution app",
 };
 
