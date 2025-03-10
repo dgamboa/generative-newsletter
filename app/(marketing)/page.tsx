@@ -8,7 +8,7 @@ import Link from "next/link"
 export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <section className="py-16 md:py-24 lg:py-32 flex flex-col items-center text-center border-b">
+      <section className="py-16 md:py-24 lg:py-32 flex flex-col items-center text-center">
         <div className="space-y-6 max-w-3xl mx-auto">
           <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4 animate-in fade-in slide-in-from-bottom-4 duration-500 border border-primary/20">
             Newsletter Creation Made Simple
