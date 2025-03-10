@@ -54,7 +54,7 @@ export async function sendNewsletterAction(
       to: recipients,
       from: {
         email: process.env.SENDGRID_FROM_EMAIL || "",
-        name: "Daniel's Newsletter"
+        name: newsletter.title
       },
       subject: newsletter.title,
       html: emailHtml
