@@ -6,11 +6,12 @@ import NewsletterConfigForm from "./_components/newsletter-config-form"
 import NewsletterConfigSkeleton from "./_components/newsletter-config-skeleton"
 
 interface NewsletterConfigPageProps {
-  searchParams: { title?: string }
+  searchParams: Promise<{ title?: string }>
 }
 
 export default async function NewsletterConfigPage({ searchParams }: NewsletterConfigPageProps) {
-  const title = searchParams.title || ""
+  const resolvedParams = await searchParams
+  const title = resolvedParams.title || ""
   
   return (
     <div className="py-8">
