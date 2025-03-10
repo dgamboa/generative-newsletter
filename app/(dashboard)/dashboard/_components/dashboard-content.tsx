@@ -9,16 +9,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import NewsletterCard from "@/components/ui/newsletter-card"
-import { ArrowRight, PlusCircle } from "lucide-react"
+import { PlusCircle } from "lucide-react"
 
 interface DashboardContentProps {
   initialNewsletters: SelectNewsletter[]
-  userId: string
 }
 
 export default function DashboardContent({
   initialNewsletters,
-  userId
 }: DashboardContentProps) {
   const [newsletters, setNewsletters] = useState<SelectNewsletter[]>(initialNewsletters)
   const [title, setTitle] = useState("")

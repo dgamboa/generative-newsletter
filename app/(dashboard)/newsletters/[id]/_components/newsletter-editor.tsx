@@ -185,6 +185,7 @@ export default function NewsletterEditor({
       new URL(url);
       return true;
     } catch (e) {
+      console.error("Invalid URL:", url, e)
       return false;
     }
   };

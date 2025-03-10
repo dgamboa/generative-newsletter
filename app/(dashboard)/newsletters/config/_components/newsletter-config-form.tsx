@@ -44,7 +44,6 @@ export default function NewsletterConfigForm({ initialConfig, title }: Newslette
     if (initialConfig) {
       const focusMatch = initialConfig.match(/## Focus\n([\s\S]*?)(?=\n## |$)/)
       const timePeriodMatch = initialConfig.match(/## Time Period\n([\s\S]*?)(?=\n## |$)/)
-      const toneMatch = initialConfig.match(/## Tone\n([\s\S]*?)(?=\n## |$)/)
       const structureMatch = initialConfig.match(/## Structure\n([\s\S]*?)(?=\n## |$)/)
       const additionalInstructionsMatch = initialConfig.match(/## Additional Instructions\n([\s\S]*?)(?=\n## |$)/)
 

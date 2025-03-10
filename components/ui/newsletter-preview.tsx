@@ -195,7 +195,7 @@ function getEmailTemplate(
       <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
         <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 10px;">Sources</h3>
         <ol style="padding-left: 20px;">
-          ${citations.map((citation, index) => `
+          ${citations.map((citation) => `
             <li style="margin-bottom: 5px;">
               <a href="${citation}" style="color: #0066cc; text-decoration: underline;">${citation}</a>
             </li>

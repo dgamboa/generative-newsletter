@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
-import { ArrowRight, Mail, Sparkles, Clock, Edit } from "lucide-react"
+import { ArrowRight, Mail, Sparkles, Edit } from "lucide-react"
 import Link from "next/link"
 
 export default function Home() {

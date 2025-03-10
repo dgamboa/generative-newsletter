@@ -29,12 +29,11 @@ async function DashboardContentFetcher() {
     return <div>You must be logged in to view your newsletters.</div>
   }
   
-  const { data: newsletters, status } = await getNewslettersByUserIdAction(userId)
+  const { data: newsletters } = await getNewslettersByUserIdAction(userId)
   
   return (
     <DashboardContent 
       initialNewsletters={newsletters || []} 
-      userId={userId} 
     />
   )
 } 
