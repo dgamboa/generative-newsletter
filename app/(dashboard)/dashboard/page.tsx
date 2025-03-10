@@ -13,7 +13,7 @@ export default async function DashboardPage() {
         <h1 className="text-3xl font-bold tracking-tight">Your Newsletters</h1>
       </div>
       
-      <div className="bg-card rounded-xl shadow-sm border p-6 md:p-8">
+      <div className="bg-card rounded-xl shadow-sm border p-6 md:p-8 shadow-[0_0_5px_rgba(0,0,0,0.1)] dark:shadow-[0_0_5px_rgba(255,255,255,0.1)]">
         <Suspense fallback={<DashboardSkeleton />}>
           <DashboardContentFetcher />
         </Suspense>
