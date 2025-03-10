@@ -14,9 +14,7 @@ interface NewsletterPageProps {
 }
 
 export default async function NewsletterPage(props: NewsletterPageProps) {
-  // Destructure after awaiting the entire props object
-  const params = await props.params;
-  const { id } = params;
+  const { id } = props.params
   
   return (
     <div className="py-8">
