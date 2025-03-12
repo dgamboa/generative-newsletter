@@ -11,8 +11,9 @@ import { useToast } from "@/components/ui/use-toast"
 import TipTapEditor from "@/components/ui/tiptap-editor"
 import NewsletterPreview from "@/components/ui/newsletter-preview"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SaveIcon, SendIcon, InfoIcon } from "lucide-react"
+import { SaveIcon, SendIcon, InfoIcon, BookmarkIcon } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import SaveEmailListModal from "@/components/ui/save-email-list-modal"
 
 interface NewsletterEditorProps {
   initialNewsletter: SelectNewsletter
@@ -37,6 +38,7 @@ export default function NewsletterEditor({
   const [sourcesExpanded, setSourcesExpanded] = useState(
     (initialNewsletter.citations && initialNewsletter.citations.length > 0) || false
   )
+  const [isSaveEmailListModalOpen, setIsSaveEmailListModalOpen] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
@@ -548,11 +550,22 @@ export default function NewsletterEditor({
             </div>
           </div>
           
-          <div className="pt-4">
+          <div className="pt-4 flex flex-col gap-2">
+            {recipients.length > 0 && (
+              <Button
+                variant="outline"
+                onClick={() => setIsSaveEmailListModalOpen(true)}
+                className="flex items-center gap-2 w-full sm:w-auto"
+              >
+                <BookmarkIcon size={16} />
+                Save Emails
+              </Button>
+            )}
+            
             <Button
               onClick={handleSend}
               disabled={isSending || recipients.length === 0}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 w-full sm:w-auto"
             >
               <SendIcon size={16} />
               {isSending ? "Sending..." : "Send Newsletter"}
@@ -560,6 +573,12 @@ export default function NewsletterEditor({
           </div>
         </TabsContent>
       </Tabs>
+      
+      <SaveEmailListModal
+        isOpen={isSaveEmailListModalOpen}
+        onClose={() => setIsSaveEmailListModalOpen(false)}
+        emails={recipients}
+      />
     </div>
   )
 } 
