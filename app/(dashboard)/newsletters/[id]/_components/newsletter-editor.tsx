@@ -11,7 +11,8 @@ import { useToast } from "@/components/ui/use-toast"
 import TipTapEditor from "@/components/ui/tiptap-editor"
 import NewsletterPreview from "@/components/ui/newsletter-preview"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SaveIcon, SendIcon } from "lucide-react"
+import { SaveIcon, SendIcon, InfoIcon } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface NewsletterEditorProps {
   initialNewsletter: SelectNewsletter
@@ -117,22 +118,49 @@ export default function NewsletterEditor({
   const handleAddRecipient = () => {
     if (!recipientInput.trim()) return
     
-    // Simple email validation
+    // Split by comma and trim each email
+    const emails = recipientInput.split(',').map(email => email.trim()).filter(email => email !== '')
+    
+    // Simple email validation for each email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(recipientInput)) {
+    const invalidEmails = emails.filter(email => !emailRegex.test(email))
+    
+    if (invalidEmails.length > 0) {
       toast({
         title: "Error",
-        description: "Please enter a valid email address",
+        description: `Invalid email address${invalidEmails.length > 1 ? 'es' : ''}: ${invalidEmails.join(', ')}`,
         variant: "destructive"
       })
       return
     }
     
-    if (!recipients.includes(recipientInput)) {
-      setRecipients([...recipients, recipientInput])
-    }
+    // Add valid emails that aren't already in the recipients list
+    const newRecipients = [...recipients]
+    let addedCount = 0
     
-    setRecipientInput("")
+    emails.forEach(email => {
+      if (!recipients.includes(email)) {
+        newRecipients.push(email)
+        addedCount++
+      }
+    })
+    
+    if (addedCount > 0) {
+      setRecipients(newRecipients)
+      setRecipientInput("")
+      
+      if (addedCount > 1) {
+        toast({
+          title: "Success",
+          description: `Added ${addedCount} email addresses`
+        })
+      }
+    } else if (emails.length > 0) {
+      toast({
+        title: "Info",
+        description: "All email addresses are already in the list"
+      })
+    }
   }
 
   const handleRemoveRecipient = (email: string) => {
@@ -468,17 +496,31 @@ export default function NewsletterEditor({
             <h3 className="text-lg font-medium">Recipients</h3>
             
             <div className="flex gap-2">
-              <Input
-                value={recipientInput}
-                onChange={(e) => setRecipientInput(e.target.value)}
-                placeholder="Enter email address"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault()
-                    handleAddRecipient()
-                  }
-                }}
-              />
+              <div className="relative flex-1">
+                <Input
+                  value={recipientInput}
+                  onChange={(e) => setRecipientInput(e.target.value)}
+                  placeholder="Enter email addresses (e.g. john@example.com, jane@example.com)"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault()
+                      handleAddRecipient()
+                    }
+                  }}
+                />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2 cursor-help text-muted-foreground">
+                        <InfoIcon size={16} />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter multiple email addresses by separating them with a comma</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <Button onClick={handleAddRecipient}>Add</Button>
             </div>
             
