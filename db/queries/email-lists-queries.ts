@@ -3,7 +3,7 @@
 import { db } from "@/db/db"
 import { emailListsTable } from "@/db/schema"
 import { InsertEmailList, SelectEmailList } from "@/db/schema/email-lists-schema"
-import { eq } from "drizzle-orm"
+import { and, eq, ilike } from "drizzle-orm"
 
 export const createEmailList = async (data: InsertEmailList) => {
   try {
@@ -23,6 +23,20 @@ export const getEmailListsByUserId = async (userId: string) => {
   } catch (error) {
     console.error("Error getting email lists:", error)
     throw new Error("Failed to get email lists")
+  }
+}
+
+export const getEmailListByName = async (userId: string, name: string) => {
+  try {
+    return db.query.emailLists.findFirst({
+      where: and(
+        eq(emailListsTable.userId, userId),
+        ilike(emailListsTable.name, name)
+      )
+    })
+  } catch (error) {
+    console.error("Error getting email list by name:", error)
+    throw new Error("Failed to get email list by name")
   }
 }
 

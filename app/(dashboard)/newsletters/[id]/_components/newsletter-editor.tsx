@@ -11,9 +11,11 @@ import { useToast } from "@/components/ui/use-toast"
 import TipTapEditor from "@/components/ui/tiptap-editor"
 import NewsletterPreview from "@/components/ui/newsletter-preview"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SaveIcon, SendIcon, InfoIcon, BookmarkIcon } from "lucide-react"
+import { SaveIcon, SendIcon, InfoIcon, BookmarkIcon, ListIcon, PlusCircleIcon, RefreshCwIcon } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import SaveEmailListModal from "@/components/ui/save-email-list-modal"
+import LoadEmailListModal from "@/components/ui/load-email-list-modal"
+import UpdateEmailListModal from "@/components/ui/update-email-list-modal"
 
 interface NewsletterEditorProps {
   initialNewsletter: SelectNewsletter
@@ -39,6 +41,8 @@ export default function NewsletterEditor({
     (initialNewsletter.citations && initialNewsletter.citations.length > 0) || false
   )
   const [isSaveEmailListModalOpen, setIsSaveEmailListModalOpen] = useState(false)
+  const [isLoadEmailListModalOpen, setIsLoadEmailListModalOpen] = useState(false)
+  const [isUpdateEmailListModalOpen, setIsUpdateEmailListModalOpen] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
@@ -260,6 +264,26 @@ export default function NewsletterEditor({
     newCitations[index] = value.trim();
     setCitations(newCitations);
   };
+
+  const handleLoadEmailList = (emails: string[]) => {
+    // Filter out duplicates
+    const newEmails = emails.filter(email => !recipients.includes(email))
+    
+    if (newEmails.length === 0) {
+      toast({
+        title: "Info",
+        description: "All emails from this list are already added"
+      })
+      return
+    }
+    
+    setRecipients([...recipients, ...newEmails])
+    
+    toast({
+      title: "Success",
+      description: `Added ${newEmails.length} new email${newEmails.length === 1 ? '' : 's'}`
+    })
+  }
 
   if (!mounted) {
     return (
@@ -495,7 +519,17 @@ export default function NewsletterEditor({
         
         <TabsContent value="recipients" className="space-y-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Recipients</h3>
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-medium">Recipients</h3>
+              <Button
+                variant="link"
+                onClick={() => setIsLoadEmailListModalOpen(true)}
+                className="flex items-center gap-1 text-sm h-auto p-0"
+              >
+                <ListIcon size={14} />
+                Load List
+              </Button>
+            </div>
             
             <div className="flex gap-2">
               <div className="relative flex-1">
@@ -550,22 +584,33 @@ export default function NewsletterEditor({
             </div>
           </div>
           
-          <div className="pt-4 flex flex-col gap-2">
+          <div className="pt-4 flex flex-col sm:flex-row gap-2">
             {recipients.length > 0 && (
-              <Button
-                variant="outline"
-                onClick={() => setIsSaveEmailListModalOpen(true)}
-                className="flex items-center gap-2 w-full sm:w-auto"
-              >
-                <BookmarkIcon size={16} />
-                Save Emails
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsSaveEmailListModalOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <PlusCircleIcon size={16} />
+                  Create List
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => setIsUpdateEmailListModalOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <RefreshCwIcon size={16} />
+                  Update List
+                </Button>
+              </>
             )}
             
             <Button
               onClick={handleSend}
               disabled={isSending || recipients.length === 0}
-              className="flex items-center gap-2 w-full sm:w-auto"
+              className="flex items-center gap-2 sm:ml-auto"
             >
               <SendIcon size={16} />
               {isSending ? "Sending..." : "Send Newsletter"}
@@ -577,6 +622,18 @@ export default function NewsletterEditor({
       <SaveEmailListModal
         isOpen={isSaveEmailListModalOpen}
         onClose={() => setIsSaveEmailListModalOpen(false)}
+        emails={recipients}
+      />
+      
+      <LoadEmailListModal
+        isOpen={isLoadEmailListModalOpen}
+        onClose={() => setIsLoadEmailListModalOpen(false)}
+        onLoad={handleLoadEmailList}
+      />
+      
+      <UpdateEmailListModal
+        isOpen={isUpdateEmailListModalOpen}
+        onClose={() => setIsUpdateEmailListModalOpen(false)}
         emails={recipients}
       />
     </div>

@@ -1,6 +1,6 @@
 "use server"
 
-import { createEmailList, deleteEmailList, getEmailListById, getEmailListsByUserId, updateEmailList } from "@/db/queries/email-lists-queries"
+import { createEmailList, deleteEmailList, getEmailListById, getEmailListByName, getEmailListsByUserId, updateEmailList } from "@/db/queries/email-lists-queries"
 import { InsertEmailList, SelectEmailList } from "@/db/schema/email-lists-schema"
 import { ActionState } from "@/types"
 import { auth } from "@clerk/nextjs/server"
@@ -16,6 +16,16 @@ export async function createEmailListAction(
       return {
         status: "error",
         message: "You must be logged in to create an email list"
+      }
+    }
+
+    // Check if a list with this name already exists for this user
+    const existingList = await getEmailListByName(userId, emailList.name)
+    
+    if (existingList) {
+      return {
+        status: "error",
+        message: "A list with this name already exists. Please choose a different name."
       }
     }
 
